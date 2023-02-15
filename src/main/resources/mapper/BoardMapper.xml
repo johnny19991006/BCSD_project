@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.repository.BoardMapper">
+    <resultMap id="boardMap" type="org.example.domain.Board">
+        <id column="BoardId" property="BoardId" jdbcType="INTEGER"/>
+        <result column="BoardWriter" property="BoardWriter" jdbcType="VARCHAR"/>
+        <result column="BoardTitle" property="BoardTitle" jdbcType="VARCHAR"/>
+        <result column="BoardContent" property="BoardContent" jdbcType="VARCHAR"/>
+        <result column="RegisterDate" property="RegisterDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="UpdateDate" property="UpdateDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="DeleteDate" property="DeleteDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="Board_UserId" property="Board_UserId" jdbcType="INTEGER"/>
+        <result column="Board_CategoryId" property="Board_CategoryId" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="getBoardById" resultMap="boardMap">
+        SELECT *
+        FROM board
+        WHERE BoardId = #{BoardId}
+    </select>
+
+
+    <insert id="create" parameterType="org.example.domain.Board">
+        INSERT INTO board
+        (BoardWriter, BoardTitle, BoardContent, RegisterDate, UpdateDate, DeleteDate, Board_UserId,
+         Board_CategoryId)
+        VALUES (#{BoardWriter}, #{BoardTitle}, #{BoardContent}, #{RegisterDate}, #{UpdateDate}, #{DeleteDate},
+                #{Board_UserId}, #{Board_CategoryId});
+    </insert>
+    <update id="update" parameterType="org.example.domain.Board">
+        UPDATE board
+        SET BoardWriter     =#{BoardWriter},
+            BoardTitle=#{BoardTitle},
+            BoardContent=#{BoardContent},
+            RegisterDate=#{RegisterDate},
+            UpdateDate=#{UpdateDate},
+            DeleteDate=#{DeleteDate},
+            Board_UserId=#{Board_UserId},
+            Board_CategoryId=#{Board_CategoryId}
+        WHERE BoardId = #{BoardId}
+    </update>
+
+
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM board
+        WHERE BoardId = #{BoardId}
+    </delete>
+</mapper>

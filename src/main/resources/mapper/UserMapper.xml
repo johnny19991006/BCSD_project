@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.repository.UserMapper">
+    <resultMap id="userMap" type="org.example.domain.User">
+        <id column="UserId" property="UserId" jdbcType="INTEGER"/>
+        <result column="UserName" property="UserName" jdbcType="VARCHAR"/>
+        <result column="UserEmail" property="UserEmail" jdbcType="VARCHAR"/>
+        <result column="UserPw" property="UserPw" jdbcType="VARCHAR"/>
+        <result column="RegisterDate" property="RegisterDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="UpdateDate" property="UpdateDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="DeleteDate" property="DeleteDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="UserPhone" property="UserPhone" jdbcType="VARCHAR"/>
+        <result column="UserAddress" property="UserAddress" jdbcType="VARCHAR"/>
+        <result column="RefreshToken" property="RefreshToken" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="getUserById" resultMap="userMap">
+        SELECT *
+        FROM user
+        WHERE UserId = #{UserId}
+    </select>
+    <select id="getUserByEmail" resultMap="userMap">
+        SELECT *
+        FROM user
+        WHERE UserEmail = #{UserEmail}
+    </select>
+
+    <insert id="create" parameterType="org.example.domain.User">
+        INSERT INTO user
+        (UserName, UserEmail, UserPw, RegisterDate, UpdateDate, DeleteDate, UserPhone, UserAddress)
+        VALUES (#{UserName}, #{UserEmail}, #{UserPw}, #{RegisterDate}, #{UpdateDate}, #{DeleteDate}, #{UserPhone},
+                #{UserAddress});
+    </insert>
+
+    <update id="update" parameterType="org.example.domain.User">
+        UPDATE user
+        SET UserName     = #{UserName},
+            UserEmail    = #{UserEmail},
+            UserPw       = #{UserPw},
+            RegisterDate = #{RegisterDate},
+            UpdateDate   = #{UpdateDate},
+            DeleteDate=#{DeleteDate},
+            UserPhone=#{UserPhone},
+            UserAddress=#{UserAddress}
+        WHERE UserId = #{UserId}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM user
+        WHERE UserId = #{UserId}
+    </delete>
+
+    <select id="getUserByEmailPw" resultMap="userMap" parameterType="org.example.domain.User">
+        SELECT *
+        FROM user
+        WHERE UserEmail = #{UserEmail}
+          AND UserPw = UserPw
+    </select>
+    <update id="updateToken" parameterType="org.example.domain.User">
+        UPDATE user
+        SET RefreshToken=#{RefreshToken}
+        WHERE UserEmail = #{UserEmail}
+    </update>
+</mapper>

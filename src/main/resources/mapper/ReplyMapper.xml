@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.repository.ReplyMapper">
+
+    <resultMap id="replyMap" type="org.example.domain.Reply">
+        <id column="ReplyId" property="ReplyId" jdbcType="INTEGER"/>
+        <result column="ReplyContent" property="ReplyContent" jdbcType="VARCHAR"/>
+        <result column="ReplyLike" property="ReplyLike" jdbcType="INTEGER"/>
+        <result column="RegisterDate" property="RegisterDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="UpdateDate" property="UpdateDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="DeleteDate" property="DeleteDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="Reply_UserId" property="Reply_UserId" jdbcType="INTEGER"/>
+        <result column="Reply_BoardId" property="Reply_BoardId" jdbcType="INTEGER"/>
+    </resultMap>
+    <select id="getReplyById" resultMap="replyMap">
+        SELECT ReplyId,
+               ReplyContent,
+               ReplyLike,
+               RegisterDate,
+               UpdateDate,
+               DeleteDate,
+               Reply_BoardId,
+               Reply_UserId
+        FROM reply
+        WHERE ReplyId = #{ReplyId}
+    </select>
+
+    <insert id="create" parameterType="org.example.domain.Reply">
+        INSERT INTO reply
+        (ReplyContent, ReplyLike, RegisterDate, UpdateDate, DeleteDate, Reply_BoardId, Reply_UserId)
+        VALUES (#{ReplyContent}, #{ReplyLike}, #{RegisterDate}, #{UpdateDate}, #{DeleteDate}, #{Reply_BoardId},
+                #{Reply_UserId});
+    </insert>
+
+    <update id="update" parameterType="org.example.domain.Reply">
+        UPDATE reply
+        SET ReplyContent  = #{ReplyContent},
+            ReplyLike     = #{ReplyLike},
+            RegisterDate=#{RegisterDate},
+            UpdateDate=#{UpdateDate},
+            DeleteDate=#{DeleteDate},
+            Reply_BoardId = #{Reply_BoardId},
+            Reply_UserId  = #{Reply_UserId}
+        WHERE ReplyId = #{ReplyId}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM reply
+        WHERE ReplyId = #{ReplyId}
+    </delete>
+
+</mapper>

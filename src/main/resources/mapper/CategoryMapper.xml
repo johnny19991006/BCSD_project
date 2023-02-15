@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.repository.CategoryMapper">
+    <resultMap id="categoryMap" type="org.example.domain.Category">
+        <id column="CategoryId" property="CategoryId" jdbcType="INTEGER"/>
+        <result column="RegisterDate" property="RegisterDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="UpdateDate" property="UpdateDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="DeleteDate" property="DeleteDate" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+        <result column="CategoryContent" property="CategoryContent" jdbcType="VARCHAR"/>
+    </resultMap>
+    <select id="getCategoryById" resultMap="categoryMap">
+        SELECT CategoryId, RegisterDate, UpdateDate, DeleteDate, CategoryContent
+        FROM category
+        WHERE CategoryId = #{CategoryId}
+    </select>
+
+    <insert id="create" parameterType="org.example.domain.Category">
+        INSERT INTO category
+            (RegisterDate, UpdateDate, DeleteDate, CategoryContent)
+        VALUES (#{RegisterDate}, #{UpdateDate}, #{DeleteDate}, #{CategoryContent});
+    </insert>
+    <update id="update" parameterType="org.example.domain.Category">
+        UPDATE category
+        SET RegisterDate=#{RegisterDate},
+            UpdateDate=#{UpdateDate},
+            DeleteDate=#{DeleteDate},
+            CategoryContent=#{CategoryContent}
+        WHERE CategoryidId = #{CategoryId}
+    </update>
+
+    <delete id="delete" parameterType="Long">
+        DELETE
+        FROM category
+        WHERE CategoryId = #{CategoryId}
+    </delete>
+</mapper>
